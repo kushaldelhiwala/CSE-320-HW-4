@@ -11,9 +11,9 @@ sem_t mutex;
 
 int main (int argc, char** argv)
 {
-	FILE *fptr1;
-	FILE *fptr2;
-	FILE *fptr3;
+	FILE *fptr1 = NULL;
+	FILE *fptr2 = NULL;
+	FILE *fptr3 = NULL;
 	pthread_t tid1, tid2, tid3;
 	
 	fptr1 = fopen("file1.dat", "r");
@@ -25,6 +25,10 @@ int main (int argc, char** argv)
 		exit(-1);
 	}
 	sem_init(&mutex, 0, 1);
+	
+	number_counter[0] = 0;
+	number_counter[1] = 0;
+	number_counter[2] = 0;
 
 	pthread_create(&tid1, NULL, thread, (void*) fptr1);
     	pthread_create(&tid2, NULL, thread, (void*) fptr2);
@@ -54,10 +58,6 @@ void *thread(void *vargp)
 
 	fscanf(vargp, "%d", &input_num);	
 
-	number_counter[0] = 0;
-	number_counter[1] = 0;
-	number_counter[2] = 0;
-
 	for (int i = 0; i < input_num; i++){
 		fscanf(vargp, "%d", &rando_num);
 		if (rando_num == 0){
@@ -69,8 +69,10 @@ void *thread(void *vargp)
 		else if (rando_num == 2){
 			number_counter[2]++;
 		}
+		else{
+			fprintf(stderr, "You can only have 0s, 1s, and 2s\n");
+		}
 	}
 	sem_post(&mutex);
 	pthread_exit(0);	
 }
-

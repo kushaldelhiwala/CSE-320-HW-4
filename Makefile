@@ -6,3 +6,6 @@ progcnt:
 
 progqsort:
 	gcc part_2/hw4_3.c -o hw4_progqsort -lpthread
+
+prevhw:
+	gcc part_3/hw4_part3.c -o hw4_prevhw -lpthread
