@@ -11,20 +11,11 @@
 #include <stdint.h>
 
 int museum_ds[500];
-pthread_t museum_one[500];
-int museum_one_count = 0;
-pthread_t museum_two[500];
-int museum_two_count = 0;
-pthread_t museum_three[500];
-int museum_three_count = 0;
-pthread_t museum_four[500];
-int museum_four_count = 0;
-pthread_t museum_five[500];
-int museum_five_count = 0;
-
+pthread_t museum_threads[500];
+int museum_threads_count = 0;
 char *strlwr(char *str);
-void *visitor_thread(void *vargp);
-void *info_thread(void *vargp);
+void *visitor_in(void *vargp);
+void *museum_info(void *vargp);
 
 int main (int argc, char** argv)
 {
@@ -56,54 +47,39 @@ int main (int argc, char** argv)
 			sscanf(input_line, "%*s %d %d", &museum_number, &num_visitors);
 			
 			for (int i = 0; i < num_visitors; i++){
-				pthread_create(&thread_id, NULL, visitor_thread, (void *)(uintptr_t)museum_number);
-				switch (museum_number)
-				{
-					case 1:
-						museum_one[museum_one_count] = thread_id;
-						museum_one_count++;
-						break;
-	
-					case 2:
-						museum_one[museum_one_count] = thread_id;
-						museum_two_count++;
-						break;
-	
-					case 3:
-						museum_three[museum_three_count] = thread_id; 
-						museum_three_count++;
-						break;
-	
-					case 4:
-						museum_four[museum_four_count] = thread_id;
-						museum_four_count++;
-						break;
-	
-					case 5:
-						museum_five[museum_five_count] = thread_id;
-						museum_five_count++;
-						break;
-					
-					default:
-						break;	
-				}
-				
-	
+				pthread_create(&thread_id, NULL, visitor_in, (void *)(uintptr_t)museum_number);
+				museum_threads[museum_threads_count] = thread_id;	
+				museum_threads_count++;
 			}
 			
 		}	
 		else if (strcmp(array[0], "out")==0){
 			int museum_number = 0;
                 	int num_visitors = 0;
+			int count_one = 0;
                         pthread_t thread_id;
   
-                        sscanf(input_line, "%*s %d %d", &museum_number, &num_visitors);	
+                        sscanf(input_line, "%*s %d %d", &museum_number, &num_visitors);
 
+			for (int i = 0; i < museum_threads_count; i++){
+				if (museum_threads[i] > 0){
+					museum_threads[i] = 0;
+					count_one++;
+				}
+				if (count_one >= num_visitors){
+					break;
+				}
+	
+			}			
 			
+			for (int i = 0; i < num_visitors; i++){
+				museum_ds[museum_number]--;
+			}	
+
 		}
 		else if (strcmp(array[0], "info")==0){
 			pthread_t thread_id;
-			pthread_create(&thread_id, NULL, info_thread, NULL);
+			pthread_create(&thread_id, NULL, museum_info, NULL);
 
 		}
 		else if (strcmp(array[0], "start")==0){
@@ -122,15 +98,27 @@ int main (int argc, char** argv)
 
 }
 
-void *visitor_thread(void *vargp){
+void *visitor_in(void *vargp){
 	int mus_num = 0;
+	int is_alive;
 	mus_num = (uintptr_t)vargp;
 	museum_ds[mus_num]++;
 
-	while(1);
+	while(1){
+		is_alive = 0;
+		for (int i = 0; i < museum_threads_count; i++){
+			if (museum_threads[i] == pthread_self()){
+				is_alive = 1;
+			}
+		}
+		if (is_alive == 0){
+			pthread_exit(NULL);
+			sleep(1);
+		}
+	}
 }
 
-void *info_thread(void *vargp){
+void *museum_info(void *vargp){
 	for (int i = 1; i < 6; i++){
 		printf("%d\t", i);
 		printf("%d\t", museum_ds[i]);
