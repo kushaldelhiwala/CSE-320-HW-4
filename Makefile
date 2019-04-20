@@ -9,3 +9,6 @@ progqsort:
 
 prevhw:
 	gcc part_3/hw4_part3.c -o hw4_prevhw -lpthread
+
+museum_overseer:
+	gcc part_4/hw4_part4.c -o hw4_museum -lpthread
