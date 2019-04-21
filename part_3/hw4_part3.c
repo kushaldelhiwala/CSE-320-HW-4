@@ -15,6 +15,7 @@ void *hire_thread(void *vargp);
 pthread_t child_thread[500];
 int child_pos = 0;
 char *strlwr(char *str);
+void cse320_print(char* message);
 
 int main (int argc, char** argv)
 {
@@ -24,6 +25,7 @@ int main (int argc, char** argv)
 	char* array[100];
 	char command[255];
 	char input_find[255];
+	char buffer4[255];
 
 	do{
 		printf("shell> ");
@@ -37,12 +39,12 @@ int main (int argc, char** argv)
 		array[0] = strlwr(array[0]);	
 	
 		if (strcmp(array[0], "help")==0){
-			printf("Here are the functions of the various commands\n");
-			printf("Hire: You can hire artists\n");
-			printf("Fire: You can fire artists\n");
-			printf("FireAll: You can fire all artists\n");
-			printf("List: List all the artists PIDs\n");
-			printf("Exit: Exit the program\n");
+			cse320_print("Here are the functions of the various commands\n");
+			cse320_print("Hire: You can hire artists\n");
+			cse320_print("Fire: You can fire artists\n");
+			cse320_print("FireAll: You can fire all artists\n");
+			cse320_print("List: List all the artists PIDs\n");
+			cse320_print("Exit: Exit the program\n");
 		}	
 		
 		else if(strcmp(array[0], "hire")==0){
@@ -87,8 +89,9 @@ int main (int argc, char** argv)
 		else if(strcmp(array[0], "list")==0){
 			for (int i = 0; i < child_pos; i++){
 				if (child_thread[i] > 0){
-					printf("%ld\t", child_thread[i]);
-					printf("WAITING\n");
+					sprintf(buffer4,"%ld\t", child_thread[i]);
+					cse320_print(buffer4);
+					cse320_print("WAITING\n");
 				}
 			}
 		}

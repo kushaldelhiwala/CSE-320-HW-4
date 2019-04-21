@@ -8,6 +8,8 @@
 int number_counter[10];
 void *thread(void *vargp);
 sem_t mutex;
+char buffer2[255];
+void cse320_print(char* message);
 
 int main (int argc, char** argv)
 {
@@ -37,9 +39,12 @@ int main (int argc, char** argv)
 	pthread_join(tid2, NULL);	
 	pthread_join(tid3, NULL);
 	
-	printf("%d\t", number_counter[0]);
-	printf("%d\t", number_counter[1]);
-	printf("%d\n", number_counter[2]);
+	sprintf(buffer2, "%d\t", number_counter[0]);
+	cse320_print(buffer2);
+	sprintf(buffer2, "%d\t", number_counter[1]);
+	cse320_print(buffer2);
+	sprintf(buffer2, "%d\n", number_counter[2]);
+	cse320_print(buffer2);
 	
 	fclose(fptr1);
 	fclose(fptr2);

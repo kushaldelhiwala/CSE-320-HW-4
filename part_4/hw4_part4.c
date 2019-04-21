@@ -20,6 +20,7 @@ void *visitor_out(void *vargp);
 void *museum_info(void *vargp);
 void *museum_close(void *vargp);
 void *museum_clean(void *vargp);
+void cse320_print(char* message);
 
 int main (int argc, char** argv)
 {
@@ -143,14 +144,19 @@ void *visitor_out(void *vargp)
 
 void *museum_info(void *vargp)
 {
+	char buffer_4[255];
+	char buffer_5[255];
+
 	for (int i = 1; i < 6; i++){
-		printf("%d\t", i);
-		printf("%d\t", museum_ds[i]);
+		sprintf(buffer_4, "%d\t", i);
+		cse320_print(buffer_4);
+		sprintf(buffer_5, "%d\t", museum_ds[i]);
+		cse320_print(buffer_5);
 		if (is_open[i] > 0){
-			printf("OPEN\n");
+			cse320_print("OPEN\n");
 		}
 		else{
-			printf("CLOSE\n");
+			cse320_print("CLOSE\n");
 		}
 	}
 
