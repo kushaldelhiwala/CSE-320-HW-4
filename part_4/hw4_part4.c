@@ -12,10 +12,14 @@
 
 int museum_ds[500];
 pthread_t museum_threads[500];
+int is_open[500];
 int museum_threads_count = 0;
 char *strlwr(char *str);
 void *visitor_in(void *vargp);
+void *visitor_out(void *vargp);
 void *museum_info(void *vargp);
+void *museum_close(void *vargp);
+void *museum_clean(void *vargp);
 
 int main (int argc, char** argv)
 {
@@ -46,6 +50,9 @@ int main (int argc, char** argv)
 			
 			sscanf(input_line, "%*s %d %d", &museum_number, &num_visitors);
 			
+			if (museum_number <= 0 || museum_number > 5){
+				fprintf(stderr, "Museum number invalid\n");
+			}
 			for (int i = 0; i < num_visitors; i++){
 				pthread_create(&thread_id, NULL, visitor_in, (void *)(uintptr_t)museum_number);
 				museum_threads[museum_threads_count] = thread_id;	
@@ -60,21 +67,21 @@ int main (int argc, char** argv)
                         pthread_t thread_id;
   
                         sscanf(input_line, "%*s %d %d", &museum_number, &num_visitors);
-
+		
+			if (museum_number <= 0 || museum_number > 5){
+				fprintf(stderr, "Museum number invalid\n");
+			}		
 			for (int i = 0; i < museum_threads_count; i++){
 				if (museum_threads[i] > 0){
 					museum_threads[i] = 0;
 					count_one++;
+					pthread_create(&thread_id, NULL, visitor_out, (void *)(uintptr_t)museum_number);
 				}
 				if (count_one >= num_visitors){
 					break;
 				}
 	
-			}			
-			
-			for (int i = 0; i < num_visitors; i++){
-				museum_ds[museum_number]--;
-			}	
+			}					
 
 		}
 		else if (strcmp(array[0], "info")==0){
@@ -83,11 +90,14 @@ int main (int argc, char** argv)
 
 		}
 		else if (strcmp(array[0], "start")==0){
-		
+			pthread_t thread_id;
+			pthread_create(&thread_id, NULL, museum_close, NULL);
 		}
 		else if (strcmp(array[0], "exit")==0){
+			pthread_t thread_id;
 			exit_flag = 1;	
-			exit(0);	
+			pthread_create(&thread_id, NULL, museum_clean, NULL);
+			//exit(0);	
 		}
 		else{
 			fprintf(stderr, "Command invalid\n");
@@ -95,14 +105,17 @@ int main (int argc, char** argv)
 		
 	
 	} while (exit_flag == 0);
-
+	
+	return 0;
 }
 
-void *visitor_in(void *vargp){
+void *visitor_in(void *vargp)
+{
 	int mus_num = 0;
 	int is_alive;
 	mus_num = (uintptr_t)vargp;
 	museum_ds[mus_num]++;
+	is_open[mus_num] = 1;
 
 	while(1){
 		is_alive = 0;
@@ -118,11 +131,22 @@ void *visitor_in(void *vargp){
 	}
 }
 
-void *museum_info(void *vargp){
+void *visitor_out(void *vargp)
+{
+	int mus_num = 0;
+	mus_num = (uintptr_t)vargp;
+
+	museum_ds[mus_num]--;
+
+
+}
+
+void *museum_info(void *vargp)
+{
 	for (int i = 1; i < 6; i++){
 		printf("%d\t", i);
 		printf("%d\t", museum_ds[i]);
-		if (museum_ds[i] > 0){
+		if (is_open[i] > 0){
 			printf("OPEN\n");
 		}
 		else{
@@ -132,7 +156,35 @@ void *museum_info(void *vargp){
 
 }
 
-char *strlwr(char *str){
+void *museum_close(void *vargp)
+{
+	while(1){
+		for (int i = 1; i < 6; i++){
+			if (museum_ds[i] == 0 && is_open[i] == 1){
+				is_open[i] = 0;
+			}
+		}
+		sleep(3);	
+	}
+}
+
+void *museum_clean(void *vargp)
+{
+	for (int i = 1; i < 6; i++){
+		museum_ds[i] = 0;
+		is_open[i] = 0;
+	}
+	
+	for (int i = 0; i < museum_threads_count; i++){
+		if (museum_threads[i] > 0){
+			museum_threads[i] = 0;
+		}
+	}
+
+}
+
+char *strlwr(char *str)
+{
 	unsigned char *p = (unsigned char *)str;
 
 	while (*p) {
