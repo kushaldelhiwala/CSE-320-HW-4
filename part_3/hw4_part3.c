@@ -110,7 +110,7 @@ int main (int argc, char** argv)
 	} while(exit_flag==0);
 
 	return 0;
-
+	exit(0);
 }
 
 
