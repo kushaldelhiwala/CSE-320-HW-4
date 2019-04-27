@@ -63,7 +63,7 @@ int main (int argc, char** argv)
 			
 			else if (museum_ds[museum_number] < 1){
 				fprintf(stderr, "This museum is now closed\n");
-			}
+ 			}
 			
 			else{
 				for (int i = 0; i < num_visitors; i++){
