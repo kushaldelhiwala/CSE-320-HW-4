@@ -17,8 +17,9 @@ The purpose of program 2 in part 2 is to take in 3 files and calculate the numbe
 Proceed to the root directory (i.e. kdelhiwala@kushal:~/cse320/hw4-kdelhiwala). Once in the root directory, please type "make progcnt". This will compile the code. To run it, please type "./hw4_progcnt". Click enter. The result will be in the requested form as per the homework document. Note: Please ensure that the files are located in the root directory, and with the correct name. Otherwise, the program will throw an error. 
 
 Program 3, Part 2: 
+The purpose of program 3 in part 3 is to be able to run parallel quicksort. 
 
-
+Proceed to the root directory (i.e. kdelhiwala@kushal:~/cse320/hw4-kdelhiwala). Once in the root directory, please type "make progqsort". This will compile the code. To run it, please type "./hw4_progqsort filename.dat". You must include the filename, or the program will throw an error and exit. Please press enter to get the result of the sorted array from the file. 
 
 Part 3: 
 The purpose of this part was to recreate the last homework, and complete it using multi-threading. This program is a shell that simulates the hiring and firing of artists, using threads. 

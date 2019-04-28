@@ -5,11 +5,13 @@
 #include <unistd.h>
 #include <semaphore.h>
 #include <string.h>
+// Disclosure: used some code from online to help create the split function
 
 int list_of_args[1000];
 void *quicksort(void *vargp);
 int split (int arr[], int low, int high);
 void swap(int* a, int* b);
+void cse320_print(char* message);
 
 struct quick_sort{
 	int start;
@@ -21,6 +23,11 @@ int main (int argc, char** argv)
 	char* filename = *(argv+1);
 	FILE* fPointer;
 	struct quick_sort quick;
+	
+	if (argc != 2){
+		fprintf(stderr, "You must have a filename to read from\n");
+		exit (0);
+	}
 
 	fPointer = fopen(filename, "r");
 	
@@ -44,9 +51,11 @@ int main (int argc, char** argv)
 	pthread_join(thread_id, NULL);
 	
 	for (int i = 0; i < num_of_args; i++){
-		printf("%d ", list_of_args[i]);
+		char buffer[500];
+		sprintf(buffer, "%d ", list_of_args[i]);
+		cse320_print(buffer);
 	}
-	printf("\n");
+	cse320_print("\n");
 
 	return 0;
 }
