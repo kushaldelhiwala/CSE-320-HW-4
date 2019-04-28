@@ -4,7 +4,7 @@ Don't cheat. Good luck!
 
 Edit by Kushal: 
 
-For my Homework 4, I have just one Makefile located in the root directory for all 3 coding portion of the HW. I have followed all the requirements in regards to executable and data structure names, except where it has not been specified (for part 3). I have three seperate folders for each part, named part_2, part_3, and part_4. To compile my code please do the following: 
+For my Homework 4, I have just one Makefile located in the root directory for all 3 coding portion of the HW. I have followed all the requirements in regards to executable and data structure names, except where it has not been specified (for part 3). I have three seperate folders for each part, named part_2, part_3, and part_4. I also have the cse320_print function located in each of the three folders. To compile my code please do the following: 
 
 Program 1, Part 2:
 The purpose of program 1 in part 2 is to produce the fibonacci number of any given integer (>0) using multithreading (in which we calculate the fibonacci number in a seperate thread)
