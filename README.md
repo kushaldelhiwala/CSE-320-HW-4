@@ -30,3 +30,7 @@ Part 4:
 The purpose of this part is to emulate the movements of people in 5 art museums in Stony Brook. When executed, the program opens a shell that lets a user emulate this. 
  
 Proceed to the root directory (i.e. kdelhiwala@kushal:~/cse320/hw4-kdelhiwala). Once in the root directory, please type "make museum_overseer". This will compile the code. To run it, please type "./hw4_museum". Click enter. This will prompt the shell. Once you are in the shell, please type any of the valid commands (in, out, info, start, exit) to test as you please. 
+
+Additional Notes: 
+
+Please note that in my program (part 3 and part 4), I have chosen to keep the threads alive after creating them (I don't join them right away). Once they are "fired" or "kicked out" depending on the program, I close the threads. Another note is I just have one Makefile for all three parts; hence I ask you to be in the root directory whilst making the program. 

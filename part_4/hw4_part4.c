@@ -61,7 +61,7 @@ int main (int argc, char** argv)
 				fprintf(stderr, "Museum number invalid\n");
 			}
 			
-			else if (museum_ds[museum_number] < 1){
+			else if (is_open[museum_number] < 1){
 				fprintf(stderr, "This museum is now closed\n");
  			}
 			
@@ -160,9 +160,9 @@ void *museum_info(void *vargp)
 	char buffer_5[255];
 
 	for (int i = 1; i < 6; i++){
-		sprintf(buffer_4, "%d\t", i);
+		sprintf(buffer_4, "%d:", i);
 		cse320_print(buffer_4);
-		sprintf(buffer_5, "%d\t", museum_ds[i]);
+		sprintf(buffer_5, "%d:", museum_ds[i]);
 		cse320_print(buffer_5);
 		if (is_open[i] > 0){
 			cse320_print("OPEN\n");
