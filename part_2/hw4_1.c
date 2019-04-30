@@ -31,6 +31,12 @@ void *fibonacci_thread(void *vargp)
 	char buffer1[255];
 
 	input_num = atoi(vargp);
+	
+	if (input_num < 0){
+		fprintf(stderr, "Input number must be greater than 0\n");
+		exit(-1);
+	}
+
 	input_num = input_num % 60;
 	
 	double phi = (1 + sqrt(5)) / 2; 

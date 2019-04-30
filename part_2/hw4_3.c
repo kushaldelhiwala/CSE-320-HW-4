@@ -56,6 +56,7 @@ int main (int argc, char** argv)
 		cse320_print(buffer);
 	}
 	cse320_print("\n");
+	fclose(fPointer);
 
 	return 0;
 }
